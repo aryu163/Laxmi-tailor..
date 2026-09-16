@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laxmi Tailor — Custom Suit Stitching, Amritsar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --maroon: #6d1f3f;
+    --maroon-deep: #4a1329;
+    --gold: #c78a2e;
+    --gold-light: #e3b869;
+    --ivory: #f7ede0;
+    --teal: #1f4a45;
+    --ink: #2a1a1f;
+    --paper: #fbf5ec;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Jost', sans-serif;
+    font-weight:400;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3,.display{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    letter-spacing:-0.01em;
+    color:var(--maroon-deep);
+  }
+
+  a{color:inherit; text-decoration:none;}
+
+  .wrap{
+    max-width:1100px;
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* ---------- Phulkari-inspired pattern ---------- */
+  .stitch-row{
+    display:flex;
+    height:10px;
+    width:100%;
+    overflow:hidden;
+  }
+  .stitch-row span{
+    flex:1;
+    height:10px;
+    background:var(--gold);
+  }
+  .stitch-row span:nth-child(3n){background:var(--maroon);}
+  .stitch-row span:nth-child(5n){background:var(--teal);}
+  .stitch-row span:nth-child(7n){background:var(--gold-light);}
+
+  /* ---------- Header ---------- */
+  header{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(251,245,236,0.92);
+    backdrop-filter:blur(6px);
+    border-bottom:1px solid rgba(109,31,63,0.12);
+  }
+  .nav{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 32px;
+    max-width:1100px;
+    margin:0 auto;
+  }
+  .logo{
+    font-family:'Fraunces', serif;
+    font-size:1.5rem;
+    font-weight:600;
+    color:var(--maroon);
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+  }
+  .logo span{
+    font-family:'Jost', sans-serif;
+    font-size:0.6rem;
+    font-weight:500;
+    color:var(--teal);
+    letter-spacing:0.12em;
+  }
+  .nav ul{
+    list-style:none;
+    display:flex;
+    gap:36px;
+    font-size:0.95rem;
+  }
+  .nav ul a{
+    position:relative;
+    padding-bottom:4px;
+    color:var(--ink);
+  }
+  .nav ul a::after{
+    content:'';
+    position:absolute;
+    left:0; right:0; bottom:0;
+    height:2px;
+    background:var(--gold);
+    transform:scaleX(0);
+    transform-origin:left;
+    transition:transform .3s ease;
+  }
+  .nav ul a:hover::after{transform:scaleX(1);}
+
+  .nav-cta{
+    background:var(--maroon);
+    color:var(--paper) !important;
+    padding:10px 22px;
+    border-radius:2px;
+    font-size:0.9rem;
+    letter-spacing:0.02em;
+    transition:background .25s ease;
+  }
+  .nav-cta:hover{background:var(--maroon-deep);}
+
+  .menu-toggle{display:none;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    position:relative;
+    padding:90px 0 70px;
+    background:var(--paper);
+    overflow:hidden;
+  }
+  .hero .wrap{
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:60px;
+    align-items:center;
+  }
+  .hero-eyebrow{
+    font-size:0.85rem;
+    color:var(--teal);
+    margin-bottom:18px;
+  }
+  .hero h1{
+    font-size:3.4rem;
+    line-height:1.06;
+    margin-bottom:24px;
+  }
+  .hero h1 em{
+    font-style:italic;
+    color:var(--gold);
+  }
+  .hero p{
+    font-size:1.1rem;
+    max-width:460px;
+    color:#4a3a3f;
+    margin-bottom:32px;
+  }
+  .hero-actions{
+    display:flex;
+    gap:16px;
+    align-items:center;
+  }
+  .btn-primary{
+    background:var(--maroon);
+    color:var(--paper);
+    padding:14px 28px;
+    border-radius:2px;
+    font-size:0.95rem;
+    display:inline-block;
+    transition:transform .25s ease, background .25s ease;
+  }
+  .btn-primary:hover{background:var(--maroon-deep); transform:translateY(-2px);}
+  .btn-ghost{
+    padding:14px 10px;
+    font-size:0.95rem;
+    border-bottom:1px solid var(--ink);
+  }
+
+  .hero-visual{
+    position:relative;
+    aspect-ratio:4/5;
+    background:linear-gradient(160deg, var(--maroon) 0%, var(--maroon-deep) 100%);
+    border-radius:4px;
+    overflow:hidden;
+    box-shadow:0 30px 60px -20px rgba(74,19,41,0.4);
+  }
+  .hero-visual svg{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+  }
+  .hero-visual .measure-tag{
+    position:absolute;
+    bottom:24px;
+    left:24px;
+    right:24px;
+    background:rgba(251,245,236,0.95);
+    padding:16px 20px;
+    border-radius:2px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .measure-tag .num{
+    font-family:'Fraunces', serif;
+    font-size:1.8rem;
+    color:var(--maroon);
+    font-weight:600;
+  }
+  .measure-tag .lbl{
+    font-size:0.75rem;
+    color:var(--ink);
+    max-width:150px;
+    line-height:1.3;
+  }
+
+  /* ---------- Trust strip ---------- */
+  .trust{
+    background:var(--teal);
+    color:var(--ivory);
+    padding:16px 0;
+  }
+  .trust .wrap{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:12px;
+    font-size:0.85rem;
+    letter-spacing:0.02em;
+  }
+
+  /* ---------- Section shared ---------- */
+  section{padding:90px 0;}
+  .section-head{
+    max-width:520px;
+    margin-bottom:56px;
+  }
+  .section-head .kicker{
+    color:var(--gold);
+    font-size:0.85rem;
+    margin-bottom:10px;
+  }
+  .section-head h2{
+    font-size:2.4rem;
+    line-height:1.15;
+  }
+  .section-head p{
+    margin-top:16px;
+    color:#4a3a3f;
+  }
+
+  /* ---------- Services ---------- */
+  .services{background:var(--ivory);}
+  .service-list{
+    display:flex;
+    flex-direction:column;
+  }
+  .service-row{
+    display:grid;
+    grid-template-columns:80px 1fr 1fr;
+    gap:24px;
+    align-items:start;
+    padding:32px 0;
+    border-top:1px solid rgba(109,31,63,0.15);
+  }
+  .service-row:last-child{border-bottom:1px solid rgba(109,31,63,0.15);}
+  .service-row .no{
+    font-family:'Fraunces', serif;
+    font-size:1.1rem;
+    color:var(--gold);
+  }
+  .service-row h3{
+    font-size:1.4rem;
+  }
+  .service-row p{
+    color:#4a3a3f;
+    font-size:0.98rem;
+  }
+
+  /* ---------- Process ---------- */
+  .process .wrap{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:32px;
+  }
+  .process-card{
+    border-left:2px solid var(--gold);
+    padding-left:20px;
+  }
+  .process-card .step-num{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    color:var(--maroon);
+    font-size:1.6rem;
+    display:block;
+    margin-bottom:10px;
+  }
+  .process-card h3{
+    font-size:1.1rem;
+    margin-bottom:8px;
+  }
+  .process-card p{
+    font-size:0.92rem;
+    color:#4a3a3f;
+  }
+
+  /* ---------- Collections (garment illustrations) ---------- */
+  .collections{background:var(--paper);}
+  .collection-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:2px;
+    background:rgba(109,31,63,0.15);
+  }
+  .collection-card{
+    background:var(--ivory);
+    padding:0;
+    position:relative;
+  }
+  .collection-card .art{
+    aspect-ratio:3/4;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:var(--ivory);
+  }
+  .collection-card .art svg{width:70%; height:70%;}
+  .collection-card .cap{
+    padding:18px 20px 24px;
+    border-top:1px solid rgba(109,31,63,0.12);
+  }
+  .collection-card .cap h3{
+    font-size:1.05rem;
+    margin-bottom:6px;
+  }
+  .collection-card .cap p{
+    font-size:0.85rem;
+    color:#4a3a3f;
+  }
+
+  /* ---------- Gallery (fabric swatches, drawn) ---------- */
+  .gallery{background:var(--maroon-deep); color:var(--ivory);}
+  .gallery .section-head h2, .gallery .section-head .kicker{color:var(--ivory);}
+  .gallery .section-head .kicker{color:var(--gold-light);}
+  .gallery .section-head p{color:#d9c3ca;}
+  .swatch-grid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:2px;
+  }
+  .swatch{
+    aspect-ratio:1;
+    position:relative;
+    overflow:hidden;
+  }
+  .swatch svg{width:100%; height:100%;}
+  .swatch-label{
+    position:absolute;
+    bottom:12px;
+    left:12px;
+    font-size:0.78rem;
+    color:var(--ivory);
+    background:rgba(74,19,41,0.55);
+    padding:4px 10px;
+  }
+
+  /* ---------- Testimonial ---------- */
+  .testimonial{
+    background:var(--ivory);
+    text-align:center;
+    padding:100px 0;
+  }
+  .testimonial blockquote{
+    font-family:'Fraunces', serif;
+    font-size:1.9rem;
+    font-style:italic;
+    max-width:700px;
+    margin:0 auto 24px;
+    color:var(--maroon-deep);
+    line-height:1.4;
+  }
+  .testimonial cite{
+    font-style:normal;
+    font-size:0.9rem;
+    color:var(--teal);
+  }
+
+  /* ---------- Contact / Visit ---------- */
+  .contact .wrap{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+  }
+  .contact h2{font-size:2.4rem; margin-bottom:20px;}
+  .contact p{color:#4a3a3f; margin-bottom:28px; max-width:420px;}
+  .info-line{
+    display:flex;
+    gap:14px;
+    padding:16px 0;
+    border-top:1px solid rgba(109,31,63,0.15);
+    font-size:0.95rem;
+  }
+  .info-line:last-child{border-bottom:1px solid rgba(109,31,63,0.15);}
+  .info-line .k{
+    min-width:110px;
+    color:var(--maroon);
+    font-weight:500;
+  }
+
+  form{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  input, textarea{
+    background:transparent;
+    border:none;
+    border-bottom:1px solid rgba(42,26,31,0.3);
+    padding:12px 4px;
+    font-family:'Jost', sans-serif;
+    font-size:1rem;
+    color:var(--ink);
+    outline:none;
+  }
+  input::placeholder, textarea::placeholder{color:#8a7378;}
+  input:focus, textarea:focus{border-bottom-color:var(--maroon);}
+  textarea{resize:vertical; min-height:90px;}
+  form button{
+    align-self:flex-start;
+    margin-top:8px;
+    background:var(--maroon);
+    color:var(--paper);
+    border:none;
+    padding:14px 30px;
+    font-family:'Jost', sans-serif;
+    font-size:0.95rem;
+    border-radius:2px;
+    cursor:pointer;
+    transition:background .25s ease;
+  }
+  form button:hover{background:var(--maroon-deep);}
+
+  /* ---------- Footer ---------- */
+  footer{
+    background:var(--maroon-deep);
+    color:#d9c3ca;
+    padding:48px 0 28px;
+  }
+  footer .wrap{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:16px;
+    font-size:0.85rem;
+  }
+  footer .f-logo{
+    font-family:'Fraunces', serif;
+    color:var(--ivory);
+    font-size:1.2rem;
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 860px){
+    .nav ul{display:none;}
+    .hero .wrap{grid-template-columns:1fr;}
+    .hero h1{font-size:2.4rem;}
+    .process .wrap{grid-template-columns:1fr 1fr;}
+    .swatch-grid{grid-template-columns:repeat(2,1fr);}
+    .collection-grid{grid-template-columns:repeat(2,1fr);}
+    .contact .wrap{grid-template-columns:1fr;}
+    .service-row{grid-template-columns:50px 1fr; }
+    .service-row p{grid-column:2;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<div class="stitch-row" id="stitchrow"></div>
+
+<header>
+  <nav class="nav">
+    <div class="logo">LAXMI TAILOR <span>SUIT STUDIO · AMRITSAR</span></div>
+    <ul>
+      <li><a href="#services">Stitching</a></li>
+      <li><a href="#collections">Collections</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#fabrics">Fabrics</a></li>
+      <li><a href="#visit">Visit Us</a></li>
+    </ul>
+    <a href="#visit" class="nav-cta">Book a Fitting</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-text">
+      <div class="hero-eyebrow">Model Town Market, Amritsar</div>
+      <h1>Suits stitched to <em>your</em> measure, not off the rack</h1>
+      <p>For twelve years, Laxmi Tailor has been turning fabric — yours or ours — into salwar suits, palazzo sets and co-ords that actually fit the woman wearing them. No alterations counter. Just your measurements, taken once, remembered forever.</p>
+      <div class="hero-actions">
+        <a href="#visit" class="btn-primary">Book a Fitting</a>
+        <a href="#services" class="btn-ghost">See what we stitch</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <svg viewBox="0 0 400 500" preserveAspectRatio="none">
+        <defs>
+          <pattern id="threadPattern" width="40" height="40" patternUnits="userSpaceOnUse">
+            <circle cx="20" cy="20" r="1.5" fill="#e3b869" opacity="0.5"/>
+          </pattern>
+        </defs>
+        <rect width="400" height="500" fill="url(#threadPattern)"/>
+        <path d="M40 60 Q 200 20 360 60" stroke="#e3b869" stroke-width="2" fill="none" opacity="0.7"/>
+        <path d="M40 100 Q 200 60 360 100" stroke="#c78a2e" stroke-width="1.5" fill="none" opacity="0.5"/>
+        <g opacity="0.85">
+          <circle cx="90" cy="180" r="14" fill="none" stroke="#e3b869" stroke-width="2"/>
+          <circle cx="90" cy="180" r="4" fill="#c78a2e"/>
+          <circle cx="200" cy="230" r="20" fill="none" stroke="#f7ede0" stroke-width="2"/>
+          <circle cx="200" cy="230" r="6" fill="#e3b869"/>
+          <circle cx="310" cy="170" r="12" fill="none" stroke="#c78a2e" stroke-width="2"/>
+          <circle cx="130" cy="330" r="10" fill="none" stroke="#e3b869" stroke-width="1.5"/>
+          <circle cx="270" cy="350" r="16" fill="none" stroke="#f7ede0" stroke-width="2"/>
+          <circle cx="270" cy="350" r="5" fill="#c78a2e"/>
+        </g>
+        <path d="M20 420 Q 200 460 380 420" stroke="#f7ede0" stroke-width="1.5" fill="none" opacity="0.4"/>
+      </svg>
+      <div class="measure-tag">
+        <div class="lbl">Every suit begins with a personal measurement card, kept on file for life.</div>
+        <div class="num">12+</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="trust">
+  <div class="wrap">
+    <span>Custom fitting, always by appointment</span>
+    <span>Bring your own fabric or choose from ours</span>
+    <span>Alterations included for 15 days</span>
+  </div>
+</div>
+
+<section class="services" id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">What we stitch</div>
+      <h2>Every suit made to your body, your occasion, your fabric</h2>
+      <p>Whether it's a daily-wear cotton set or a heavy wedding ensemble, each piece is cut fresh for the person wearing it.</p>
+    </div>
+    <div class="service-list">
+      <div class="service-row">
+        <div class="no">01</div>
+        <h3>Everyday Salwar Suits</h3>
+        <p>Cotton, lawn and linen sets stitched for comfort — straight cut, Patiala, or Anarkali, ready in 4–5 days.</p>
+      </div>
+      <div class="service-row">
+        <div class="no">02</div>
+        <h3>Palazzo &amp; Co-ord Sets</h3>
+        <p>Contemporary silhouettes for work and outings, tailored to sit right at the waist and fall correctly at the ankle.</p>
+      </div>
+      <div class="service-row">
+        <div class="no">03</div>
+        <h3>Wedding &amp; Festive Wear</h3>
+        <p>Heavy dupatta suits, sharara sets and reception outfits, with hand-finished hems and lining that holds embroidery.</p>
+      </div>
+      <div class="service-row">
+        <div class="no">04</div>
+        <h3>Alterations &amp; Refitting</h3>
+        <p>Bring an old suit that no longer fits — we let it out, take it in, or rework the neckline while you wait.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="process" id="process">
+  <div class="wrap" style="display:block;">
+    <div class="section-head">
+      <div class="kicker">How it works</div>
+      <h2>From fabric to finished suit in four steps</h2>
+    </div>
+  </div>
+  <div class="wrap">
+    <div class="process-card">
+      <span class="step-num">i</span>
+      <h3>Bring your fabric</h3>
+      <p>Or pick from our in-house cottons and silks — we'll tell you honestly how much you need.</p>
+    </div>
+    <div class="process-card">
+      <span class="step-num">ii</span>
+      <h3>Get measured</h3>
+      <p>A proper fitting session, not a guess. Your card is saved, so next time takes minutes.</p>
+    </div>
+    <div class="process-card">
+      <span class="step-num">iii</span>
+      <h3>We cut and stitch</h3>
+      <p>Your suit is cut individually — never from a standard block pattern.</p>
+    </div>
+    <div class="process-card">
+      <span class="step-num">iv</span>
+      <h3>Final fitting</h3>
+      <p>One trial before you take it home, with any small adjustment made on the spot.</p>
+    </div>
+  </div>
+</section>
+
+<section class="collections" id="collections">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">Our collections</div>
+      <h2>Four silhouettes we stitch most</h2>
+      <p>Line sketches for now — once you visit, you'll see the real pieces on the rack. Real photos of finished work will replace these soon.</p>
+    </div>
+    <div class="collection-grid">
+
+      <div class="collection-card">
+        <div class="art">
+          <svg viewBox="0 0 160 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M60 20 Q80 10 100 20 L108 40 L95 40 L95 130 Q95 145 80 145 Q65 145 65 130 L65 40 L52 40 Z"
+              fill="none" stroke="#6d1f3f" stroke-width="2.2"/>
+            <path d="M65 45 L45 110 L55 115 L68 60" fill="none" stroke="#6d1f3f" stroke-width="1.6"/>
+            <path d="M95 45 L115 110 L105 115 L92 60" fill="none" stroke="#6d1f3f" stroke-width="1.6"/>
+            <path d="M55 150 L48 195 M105 150 L112 195 M60 150 L58 195 M100 150 L102 195"
+              fill="none" stroke="#c78a2e" stroke-width="1.6"/>
+            <path d="M62 30 Q80 22 98 30" fill="none" stroke="#e3b869" stroke-width="1.4"/>
+            <circle cx="80" cy="55" r="2" fill="#c78a2e"/>
+            <circle cx="80" cy="70" r="2" fill="#c78a2e"/>
+            <circle cx="80" cy="85" r="2" fill="#c78a2e"/>
+          </svg>
+        </div>
+        <div class="cap">
+          <h3>Salwar Suit</h3>
+          <p>Straight-cut kameez with fitted salwar — the everyday classic.</p>
+        </div>
+      </div>
+
+      <div class="collection-card">
+        <div class="art">
+          <svg viewBox="0 0 160 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M58 22 Q80 12 102 22 L108 65 Q80 78 52 65 Z"
+              fill="none" stroke="#1f4a45" stroke-width="2.2"/>
+            <path d="M52 65 L44 100 L58 104 L64 70" fill="none" stroke="#1f4a45" stroke-width="1.6"/>
+            <path d="M108 65 L116 100 L102 104 L96 70" fill="none" stroke="#1f4a45" stroke-width="1.6"/>
+            <path d="M60 80 L54 195 L74 195 L78 90 L82 90 L86 195 L106 195 L100 80"
+              fill="none" stroke="#c78a2e" stroke-width="2"/>
+            <path d="M64 30 Q80 24 96 30" fill="none" stroke="#e3b869" stroke-width="1.4"/>
+          </svg>
+        </div>
+        <div class="cap">
+          <h3>Co-ord Set</h3>
+          <p>Matching top and bottom, cut from one fabric for a clean, modern line.</p>
+        </div>
+      </div>
+
+      <div class="collection-card">
+        <div class="art">
+          <svg viewBox="0 0 160 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M58 20 Q80 10 102 20 L110 55 L94 55 L94 95 L66 95 L66 55 L50 55 Z"
+              fill="none" stroke="#6d1f3f" stroke-width="2.2"/>
+            <path d="M50 55 L38 90 L50 95 L60 62" fill="none" stroke="#6d1f3f" stroke-width="1.6"/>
+            <path d="M110 55 L122 90 L110 95 L100 62" fill="none" stroke="#6d1f3f" stroke-width="1.6"/>
+            <path d="M62 98 Q40 140 46 195 M98 98 Q120 140 114 195"
+              fill="none" stroke="#c78a2e" stroke-width="2"/>
+            <path d="M46 195 Q80 205 114 195" fill="none" stroke="#c78a2e" stroke-width="2"/>
+            <path d="M62 30 Q80 23 98 30" fill="none" stroke="#e3b869" stroke-width="1.4"/>
+          </svg>
+        </div>
+        <div class="cap">
+          <h3>Palazzo Set</h3>
+          <p>Flowy wide-leg palazzo with a fitted or A-line kurti on top.</p>
+        </div>
+      </div>
+
+      <div class="collection-card">
+        <div class="art">
+          <svg viewBox="0 0 160 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M55 18 Q80 8 105 18 L112 50 L92 50 L92 85 L68 85 L68 50 L48 50 Z"
+              fill="none" stroke="#c78a2e" stroke-width="2.2"/>
+            <path d="M48 50 L36 82 L48 88 L58 58" fill="none" stroke="#c78a2e" stroke-width="1.6"/>
+            <path d="M112 50 L124 82 L112 88 L102 58" fill="none" stroke="#c78a2e" stroke-width="1.6"/>
+            <path d="M64 88 Q30 120 34 160 Q36 190 62 195 L98 195 Q124 190 126 160 Q130 120 96 88"
+              fill="none" stroke="#6d1f3f" stroke-width="2"/>
+            <path d="M50 130 Q80 120 110 130" fill="none" stroke="#e3b869" stroke-width="1.4"/>
+            <path d="M60 28 Q80 20 100 28" fill="none" stroke="#e3b869" stroke-width="1.4"/>
+            <path d="M110 25 Q140 40 135 90" fill="none" stroke="#c78a2e" stroke-width="1.4" opacity="0.7"/>
+          </svg>
+        </div>
+        <div class="cap">
+          <h3>Sharara Set</h3>
+          <p>Fitted kurti with a dramatically flared sharara, for weddings and festive wear.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="gallery" id="fabrics">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="kicker">In the studio</div>
+      <h2>Fabrics and threads we work with often</h2>
+      <p>A small selection from what's usually on our shelves this season.</p>
+    </div>
+    <div class="swatch-grid">
+      <div class="swatch">
+        <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="200" height="200" fill="#6d1f3f"/>
+          <circle cx="40" cy="40" r="18" fill="#e3b869"/>
+          <circle cx="120" cy="70" r="14" fill="#c78a2e"/>
+          <circle cx="70" cy="130" r="20" fill="#f7ede0" opacity="0.85"/>
+          <circle cx="160" cy="150" r="12" fill="#e3b869"/>
+        </svg>
+        <div class="swatch-label">Phulkari cotton</div>
+      </div>
+      <div class="swatch">
+        <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="200" height="200" fill="#1f4a45"/>
+          <path d="M0 40 H200 M0 90 H200 M0 140 H200" stroke="#e3b869" stroke-width="4"/>
+          <path d="M40 0 V200 M120 0 V200" stroke="#f7ede0" stroke-width="2" opacity="0.5"/>
+        </svg>
+        <div class="swatch-label">Handloom check</div>
+      </div>
+      <div class="swatch">
+        <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="200" height="200" fill="#c78a2e"/>
+          <circle cx="100" cy="100" r="70" fill="none" stroke="#4a1329" stroke-width="3"/>
+          <circle cx="100" cy="100" r="40" fill="none" stroke="#f7ede0" stroke-width="2"/>
+        </svg>
+        <div class="swatch-label">Zari border silk</div>
+      </div>
+      <div class="swatch">
+        <svg viewBox="0 0 200 200" preserveAspectRatio="xMidYMid slice">
+          <rect width="200" height="200" fill="#e3b869"/>
+          <path d="M0 0 L200 200 M200 0 L0 200" stroke="#6d1f3f" stroke-width="3" opacity="0.6"/>
+          <circle cx="100" cy="100" r="10" fill="#4a1329"/>
+        </svg>
+        <div class="swatch-label">Chikankari lawn</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testimonial">
+  <div class="wrap">
+    <blockquote>"I brought them my mother's old silk saree and asked for a suit — they turned it into something I actually wear now, not just keep in the cupboard."</blockquote>
+    <cite>— A customer, Ranjit Avenue, Amritsar</cite>
+  </div>
+</section>
+
+<section class="contact" id="visit">
+  <div class="wrap">
+    <div>
+      <h2>Visit the studio</h2>
+      <p>Walk in for a measurement, or write to us first if you'd like to discuss fabric and design before you come in.</p>
+      <div class="info-line"><div class="k">Address</div><div>Shop 14, Model Town Market, Amritsar, Punjab</div></div>
+      <div class="info-line"><div class="k">Hours</div><div>11:00 AM – 8:00 PM, closed Sundays</div></div>
+      <div class="info-line"><div class="k">Phone</div><div>+91 98XXX XXXXX</div></div>
+      <div class="info-line"><div class="k">Turnaround</div><div>4–5 days everyday wear · 10–14 days festive &amp; bridal</div></div>
+    </div>
+    <form onsubmit="handleSubmit(event)">
+      <input type="text" placeholder="Your name" required>
+      <input type="tel" placeholder="Phone number" required>
+      <textarea placeholder="What would you like stitched? (e.g. Anarkali suit, own fabric)"></textarea>
+      <button type="submit">Request a Fitting Slot</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="f-logo">Laxmi Tailor</div>
+    <div>Model Town Market, Amritsar, Punjab</div>
+    <div>&copy; 2026 Laxmi Tailor</div>
+  </div>
+</footer>
+
+<script>
+  // build the stitch-row divider strip
+  const row = document.getElementById('stitchrow');
+  for(let i=0;i<40;i++){
+    const s = document.createElement('span');
+    row.appendChild(s);
+  }
+
+  function handleSubmit(e){
+    e.preventDefault();
+    const btn = e.target.querySelector('button');
+    const original = btn.textContent;
+    btn.textContent = 'Request sent';
+    btn.style.background = '#1f4a45';
+    setTimeout(()=>{
+      btn.textContent = original;
+      btn.style.background = '';
+      e.target.reset();
+    }, 2200);
+  }
+</script>
+
+</body>
+</html>
